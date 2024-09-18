@@ -153,7 +153,7 @@ STORAGES = {
 }
 
 #static
-STATIC_URL = "https://%s.s3.amazonaws.com/" % env('AWS_STORAGE_BUCKET_NAME')
+STATIC_URL = "https://%s.s3.amazonaws.com/static/" % env('AWS_STORAGE_BUCKET_NAME')
 
 #media
 MEDIA_URL = "https://%s.s3.amazonaws.com/media/" % env('AWS_STORAGE_BUCKET_NAME')
