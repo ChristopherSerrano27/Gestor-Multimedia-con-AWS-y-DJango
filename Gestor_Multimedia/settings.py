@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app_media",
+    "storages", #por si aca
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,39 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#config de S3 
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": env('AWS_STORAGE_BUCKET_NAME'),
+            "access_key": env('AWS_ACCESS_KEY_ID'),
+            "secret_key": env('AWS_SECRET_ACCESS_KEY'),
+            "region_name": env('AWS_REGION_NAME'),
+            "querystring_auth": False,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": env('AWS_STORAGE_BUCKET_NAME'),
+            "access_key": env('AWS_ACCESS_KEY_ID'),
+            "secret_key": env('AWS_SECRET_ACCESS_KEY'),
+            "region_name": env('AWS_REGION_NAME'),
+        },
+    },
+}
+
+#static
+STATIC_URL = "https://%s.s3.amazonaws.com/" % env('AWS_STORAGE_BUCKET_NAME')
+
+#media
+MEDIA_URL = "https://%s.s3.amazonaws.com/media/" % env('AWS_STORAGE_BUCKET_NAME')
+
+#default storage
+DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
+
+#static file storage
+STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
