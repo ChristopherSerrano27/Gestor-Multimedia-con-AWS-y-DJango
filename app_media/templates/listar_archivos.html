@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Archivos</title>
+</head>
+<body>
+    <h1>Archivos Subidos</h1>
+    <ul>
+        {% for archivo in archivos %}
+            <li>
+                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name }}</a>
+            </li>
+        {% empty %}
+            <li>No hay archivos subidos aún.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -7,6 +7,7 @@ urlpatterns = [
     # tus otras URLs
     path('subir/', views.subir_archivo, name='subir_archivo'),
     path('exito/', views.archivo_subido_exito, name='archivo_subido_exito'),
+    path('', views.listar_archivos, name='listar_archivos'),
 ]
 
 if settings.DEBUG:
