@@ -10,11 +10,22 @@
     <ul>
         {% for archivo in archivos %}
             <li>
-                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name }}</a>
+                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
             </li>
         {% empty %}
             <li>No hay archivos subidos aún.</li>
         {% endfor %}
     </ul>
+
+    <!-- cerrar sesión -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <!-- botón para subir un archivo -->
+    <form method="GET" action="{% url 'subir_archivo' %}">
+        <button type="submit">Subir un archivo</button>
+    </form>
 </body>
 </html>

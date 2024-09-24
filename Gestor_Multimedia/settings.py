@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = "Gestor_Multimedia.urls"
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es"
 
 TIME_ZONE = "UTC"
 
@@ -163,3 +164,7 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
 
 #static file storage
 STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
+
+LOGIN_URL = 'login'  
+LOGIN_REDIRECT_URL = 'listar_archivos' 
+LOGOUT_REDIRECT_URL = 'login'
