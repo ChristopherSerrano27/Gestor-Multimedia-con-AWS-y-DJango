@@ -12,5 +12,11 @@
         {{ form.as_p }}
         <button type="submit">Subir</button>
     </form>
+
+    <!-- atras boton -->
+    <form action="{% url 'listar_archivos' %}" method="get">
+        <button type="submit">Atrás</button>
+    </form>
 </body>
 </html>
+
