@@ -6,15 +6,33 @@
     <title>Lista de Archivos</title>
 </head>
 <body>
-    <h1>Archivos Subidos</h1>
+    <h1>Bienvenido, {{ request.user.username }}!</h1> <!-- holis -->
+    
+    <h1>Archivos</h1>
     <ul>
         {% for archivo in archivos %}
             <li>
                 <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
+                <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
             </li>
         {% empty %}
             <li>No hay archivos subidos aún.</li>
         {% endfor %}
+    </ul>
+
+
+    <!-- compartir y recibir -->
+    <h2>Acciones</h2>
+    <ul>
+        <li>
+            <a href="{% url 'compartir_archivo' %}">Compartir Archivos</a>
+        </li>
+        <li>
+            <a href="{% url 'recibir_archivos' %}">Recibir Archivos</a>
+        </li>
     </ul>
 
     <!-- cerrar sesión -->

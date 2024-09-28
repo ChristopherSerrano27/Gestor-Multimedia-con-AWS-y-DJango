@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compartir Archivos</title>
+</head>
+<body>
+    <h2>Compartir Archivos</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="destinatario">Selecciona un usuario para compartir:</label>
+        <select name="destinatario" required>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+            {% endfor %}
+        </select>
+        
+        <h3>Selecciona los archivos a compartir:</h3>
+        {% if archivos %}
+            {% for archivo in archivos %}
+                <input type="checkbox" name="archivos" value="{{ archivo.id }}">{{ archivo.nombre }}<br>
+            {% endfor %}
+        {% else %}
+            <p>No hay archivos para compartir.</p>
+        {% endif %}
+        
+        <button type="submit">Compartir</button>
+    </form>
+
+    <!-- regresar -->
+    <form action="{% url 'listar_archivos' %}" method="get">
+        <button type="submit">Atrás</button>
+    </form>
+</body>
+</html>
