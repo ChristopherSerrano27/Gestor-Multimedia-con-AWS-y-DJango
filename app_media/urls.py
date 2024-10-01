@@ -15,7 +15,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('compartir/', compartir_archivo, name='compartir_archivo'),
     path('recibir/', recibir_archivos, name='recibir_archivos'),
-    path('eliminar_archivo/<int:archivo_id>/', eliminar_archivo, name='eliminar_archivo'),
+    path('eliminar_archivo/<int:archivo_id>/', eliminar_archivo, name='eliminar_archivo'),#*
 ]
 
 if settings.DEBUG:
