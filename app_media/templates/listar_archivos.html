@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h2>Lista de Archivos</h2>
+    <h1>Archivos</h1>
     <ul>
         {% for archivo in archivos %}
             <li>
@@ -29,10 +29,14 @@
                 {% else %}
                     <span>No hay miniatura disponible</span>
                 {% endif %}
-                <span>{{ archivo.nombre }}</span>
+                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
+                <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
             </li>
         {% empty %}
-            <li>No hay archivos disponibles.</li>
+            <li>No hay archivos subidos aún.</li>
         {% endfor %}
     </ul>
 </body>
