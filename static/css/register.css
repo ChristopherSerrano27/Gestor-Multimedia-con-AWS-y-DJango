@@ -1,12 +1,12 @@
 /* Estilos generales */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    height: 100vh;
-    margin: 0;
+    background-color: #4B0082; /* Fondo morado */
+    font-family: 'DejaVu Sans Mono', monospace;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: left;
+    height: 100vh;
+    margin: 0;
 }
 
 h2 {
@@ -14,14 +14,15 @@ h2 {
     color: white;
     text-shadow: 2px 2px 4px #000;
     margin-bottom: 20px;
+    font-size: 40px;
 }
 
-.login-container {
+.register-container {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 700px;
     text-align: center;
 }
 

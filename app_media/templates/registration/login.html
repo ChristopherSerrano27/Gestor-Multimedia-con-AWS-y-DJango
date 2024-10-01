@@ -8,20 +8,22 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <h2>Iniciar Sesión</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Iniciar Sesión</button>
-    </form>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Iniciar Sesión</button>
+        </form>
 
-    {% if next %}
-        <input type="hidden" name="next" value="{{ next }}">
-    {% endif %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
 
-    <!-- registrarse botón -->
-    <form method="GET" action="{% url 'register' %}">
-        <button type="submit">Registrarse</button>
-    </form>
+        <!-- Registrarse botón -->
+        <form method="GET" action="{% url 'register' %}">
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
 </body>
 </html>
