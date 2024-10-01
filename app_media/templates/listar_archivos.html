@@ -14,22 +14,46 @@
     </style>
 </head>
 <body>
-    <h1>Archivos</h1>
+    <h1>Archivos de {{ request.user.username }}</h1> 
+
+    <!-- Navegación -->
+    <nav>
+        <a href="{% url 'subir_archivo' %}">Subir Archivos</a> | 
+        <a href="{% url 'compartir_archivo' %}">Compartir Archivos</a> | 
+        <a href="{% url 'recibir_archivos' %}">Archivos Compartidos</a> | 
+        <a href="{% url 'logout' %}">Cerrar Sesión</a>
+    </nav>
+
     <ul>
         {% for archivo in archivos %}
             <li>
+                <!-- Miniaturas -->
                 {% if archivo.es_imagen %}
                     <img src="{{ archivo.url }}" alt="{{ archivo.nombre }}" class="thumbnail">
                 {% elif archivo.es_pdf %}
                     <img src="{% static 'imagenes/pdf_icon.png' %}" alt="PDF" class="thumbnail">
                 {% elif archivo.es_video %}
                     <img src="{% static 'imagenes/video_icon.png' %}" alt="Video" class="thumbnail">
+                {% elif archivo.es_audio %}
+                    <img src="{% static 'imagenes/audio_icon.png' %}" alt="Audio" class="thumbnail">
                 {% elif archivo.es_documento %}
                     <img src="{% static 'imagenes/word_icon.png' %}" alt="Documento" class="thumbnail">
+                {% elif archivo.es_excel %}
+                    <img src="{% static 'imagenes/excel_icon.png' %}" alt="Excel" class="thumbnail">
+                {% elif archivo.es_ppt %}
+                    <img src="{% static 'imagenes/ppt_icon.png' %}" alt="PowerPoint" class="thumbnail">
+                {% elif archivo.es_txt %}
+                    <img src="{% static 'imagenes/txt_icon.png' %}" alt="Texto" class="thumbnail">
+                {% elif archivo.es_zip %}
+                    <img src="{% static 'imagenes/zip_icon.png' %}" alt="Archivo comprimido" class="thumbnail">
                 {% else %}
                     <span>No hay miniatura disponible</span>
                 {% endif %}
-                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
+                
+                <!-- Link para ver archivo -->
+                <a href="{{ archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
+
+                <!-- Formulario para eliminar archivo -->
                 <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
                     {% csrf_token %}
                     <button type="submit">Eliminar</button>
