@@ -1,3 +1,4 @@
+import mimetypes
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -6,15 +7,16 @@ def user_directory_path(instance, filename):
 
 class Archivo(models.Model):
     nombre = models.CharField(max_length=50)
-    archivo = models.FileField(upload_to=user_directory_path) 
+    archivo = models.FileField(upload_to=user_directory_path)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.nombre
 
     def save(self, *args, **kwargs):
         if self.archivo:
-            self.archivo.name = f'{self.archivo.name}'
+            self.tipo, _ = mimetypes.guess_type(self.archivo.name)
         super().save(*args, **kwargs)
 
 class CompartirArchivo(models.Model):

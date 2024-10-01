@@ -28,11 +28,25 @@ def archivo_subido_exito(request):
 @login_required  
 def listar_archivos(request):
     archivos = Archivo.objects.filter(usuario=request.user)
+    
     for archivo in archivos:
         archivo.url = f'https://{archivo.archivo.storage.bucket_name}.s3.us-east-2.amazonaws.com/{archivo.archivo.name}'
+
+        archivo.es_imagen = False
+        archivo.es_pdf = False
+        archivo.es_video = False
+        archivo.es_documento = False
+
+        if archivo.archivo.url.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+            archivo.es_imagen = True
+        elif archivo.archivo.url.endswith('.pdf'):
+            archivo.es_pdf = True
+        elif archivo.archivo.url.endswith(('.mp4', '.avi', '.mov', '.mkv')):
+            archivo.es_video = True
+        elif archivo.archivo.url.endswith(('.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx')):
+            archivo.es_documento = True
     
     return render(request, 'listar_archivos.html', {'archivos': archivos})
-
 
 class RegisterView(View):
     def get(self, request):

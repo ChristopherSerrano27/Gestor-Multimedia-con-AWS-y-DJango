@@ -1,49 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Archivos</title>
+    <style>
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido, {{ request.user.username }}!</h1> <!-- holis -->
-    
-    <h1>Archivos</h1>
+    <h2>Lista de Archivos</h2>
     <ul>
         {% for archivo in archivos %}
             <li>
-                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
-                <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Eliminar</button>
-                </form>
+                {% if archivo.es_imagen %}
+                    <img src="{{ archivo.url }}" alt="{{ archivo.nombre }}" class="thumbnail">
+                {% elif archivo.es_pdf %}
+                    <img src="{% static 'imagenes/pdf_icon.png' %}" alt="PDF" class="thumbnail">
+                {% elif archivo.es_video %}
+                    <img src="{% static 'imagenes/video_icon.png' %}" alt="Video" class="thumbnail">
+                {% elif archivo.es_documento %}
+                    <img src="{% static 'imagenes/word_icon.png' %}" alt="Documento" class="thumbnail">
+                {% else %}
+                    <span>No hay miniatura disponible</span>
+                {% endif %}
+                <span>{{ archivo.nombre }}</span>
             </li>
         {% empty %}
-            <li>No hay archivos subidos aún.</li>
+            <li>No hay archivos disponibles.</li>
         {% endfor %}
     </ul>
-
-
-    <!-- compartir y recibir -->
-    <h2>Acciones</h2>
-    <ul>
-        <li>
-            <a href="{% url 'compartir_archivo' %}">Compartir Archivos</a>
-        </li>
-        <li>
-            <a href="{% url 'recibir_archivos' %}">Recibir Archivos</a>
-        </li>
-    </ul>
-
-    <!-- cerrar sesión -->
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Cerrar sesión</button>
-    </form>
-
-    <!-- botón para subir un archivo -->
-    <form method="GET" action="{% url 'subir_archivo' %}">
-        <button type="submit">Subir un archivo</button>
-    </form>
 </body>
 </html>
