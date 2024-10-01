@@ -11,17 +11,38 @@
             height: 100px;
             object-fit: cover;
         }
+        .button {
+            background-color: #4CAF50; /* Color del botón */
+            color: white; /* Color del texto */
+            padding: 5px 10px; /* Espaciado del botón */
+            text-align: center; /* Centrar texto */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para mostrar en línea */
+            margin: 4px 2px; /* Margen del botón */
+            cursor: pointer; /* Cursor de puntero */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+        }
     </style>
 </head>
 <body>
-    <h1>Archivos de {{ request.user.username }}</h1> 
+    <h1>Bienvenido, {{ request.user.username }}!</h1> <!-- Mensaje de bienvenida -->
 
     <!-- Navegación -->
     <nav>
-        <a href="{% url 'subir_archivo' %}">Subir Archivos</a> | 
-        <a href="{% url 'compartir_archivo' %}">Compartir Archivos</a> | 
-        <a href="{% url 'recibir_archivos' %}">Archivos Compartidos</a> | 
-        <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        <form method="GET" action="{% url 'subir_archivo' %}" style="display: inline;">
+            <button type="submit" class="button">Subir Archivos</button>
+        </form>
+        <form method="GET" action="{% url 'compartir_archivo' %}" style="display: inline;">
+            <button type="submit" class="button">Compartir Archivos</button>
+        </form>
+        <form method="GET" action="{% url 'recibir_archivos' %}" style="display: inline;">
+            <button type="submit" class="button">Archivos Compartidos</button>
+        </form>
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="button">Cerrar sesión</button>
+        </form>
     </nav>
 
     <ul>
@@ -50,9 +71,12 @@
                     <span>No hay miniatura disponible</span>
                 {% endif %}
                 
-                <!-- Link para ver archivo -->
-                <a href="{{ archivo.url }}" target="_blank">{{ archivo.nombre }}</a>
-
+                <!-- Mostrar nombre de archivo -->
+                <span>{{ archivo.nombre }}</span>
+    
+                <!-- Botón para descargar archivo -->
+                <a href="{% url 'descargar_archivo' archivo.id %}" class="button">Descargar</a>
+    
                 <!-- Formulario para eliminar archivo -->
                 <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
                     {% csrf_token %}
@@ -63,5 +87,6 @@
             <li>No hay archivos subidos aún.</li>
         {% endfor %}
     </ul>
+    
 </body>
 </html>

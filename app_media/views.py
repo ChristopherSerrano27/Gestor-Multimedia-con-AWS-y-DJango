@@ -7,6 +7,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.http import FileResponse, Http404
 
 @login_required
 def subir_archivo(request):
@@ -27,15 +28,20 @@ def archivo_subido_exito(request):
 
 @login_required  
 def listar_archivos(request):
-    archivos = Archivo.objects.filter(usuario=request.user)
-    
+    archivos = Archivo.objects.all() 
+
     for archivo in archivos:
         archivo.url = f'https://{archivo.archivo.storage.bucket_name}.s3.us-east-2.amazonaws.com/{archivo.archivo.name}'
 
         archivo.es_imagen = False
         archivo.es_pdf = False
         archivo.es_video = False
+        archivo.es_audio = False
         archivo.es_documento = False
+        archivo.es_excel = False
+        archivo.es_ppt = False
+        archivo.es_txt = False
+        archivo.es_zip = False
 
         if archivo.archivo.url.endswith(('.jpg', '.jpeg', '.png', '.gif')):
             archivo.es_imagen = True
@@ -43,10 +49,21 @@ def listar_archivos(request):
             archivo.es_pdf = True
         elif archivo.archivo.url.endswith(('.mp4', '.avi', '.mov', '.mkv')):
             archivo.es_video = True
-        elif archivo.archivo.url.endswith(('.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx')):
+        elif archivo.archivo.url.endswith(('.mp3', '.wav', '.ogg', '.flac')):
+            archivo.es_audio = True
+        elif archivo.archivo.url.endswith(('.doc', '.docx')):
             archivo.es_documento = True
-    
+        elif archivo.archivo.url.endswith(('.xls', '.xlsx')):
+            archivo.es_excel = True
+        elif archivo.archivo.url.endswith(('.ppt', '.pptx')):
+            archivo.es_ppt = True
+        elif archivo.archivo.url.endswith('.txt'):
+            archivo.es_txt = True
+        elif archivo.archivo.url.endswith(('.zip', '.rar', '.tar', '.gz')):
+            archivo.es_zip = True
+
     return render(request, 'listar_archivos.html', {'archivos': archivos})
+
 
 class RegisterView(View):
     def get(self, request):
@@ -145,3 +162,7 @@ def eliminar_archivo(request, archivo_id):
         archivo.delete()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def descargar_archivo(request, archivo_id):
+    archivo = get_object_or_404(Archivo, id=archivo_id)
+    return HttpResponseRedirect(archivo.archivo.url)
