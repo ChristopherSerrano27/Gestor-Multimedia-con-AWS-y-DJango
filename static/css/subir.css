@@ -1,0 +1,60 @@
+/* Estilos generales */
+body {
+    background-color: #d3d8db; /* Color de fondo */
+    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.upload-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: left;
+    position: relative;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Línea debajo del título */
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin-bottom: 20px;
+}
+
+/* Estilo del formulario */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botones */
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #6c63ff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #574b90;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}

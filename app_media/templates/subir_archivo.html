@@ -1,16 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir Archivo</title>
+    <link rel="stylesheet" href="{% static 'css/subir.css' %}"> <!-- Asegúrate de que este archivo CSS exista -->
 </head>
 <body>
-    <h2>Subir Archivo</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Subir</button>
-    </form>
+    <div class="upload-container">
+        <h2>Subir Archivo</h2>
+        <hr> <!-- Línea debajo del título -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-container">
+                <button type="submit">Subir</button>
+            </div>
+        </form>
+
+        <div class="button-container">
+            <form action="{% url 'listar_archivos' %}" method="get">
+                <button type="submit">Atrás</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

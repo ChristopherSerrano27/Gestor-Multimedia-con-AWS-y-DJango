@@ -1,0 +1,62 @@
+/* Estilos generales */
+body {
+    background-color: #4B0082; /* Fondo morado */
+    font-family: 'DejaVu Sans Mono', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    height: 100vh;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+.register-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    text-align: center;
+}
+
+/* Estilo para los botones */
+button {
+    background-color: #6A0DAD; /* Color morado */
+    color: white; /* Texto blanco */
+    border: 2px solid black; /* Contorno negro */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* Esquinas redondeadas */
+    transition: background-color 0.3s ease; /* Transición suave */
+    width: 100%; /* Botón en toda la anchura del contenedor */
+    margin: 10px 0; /* Espaciado entre botones */
+}
+
+/* Cambiar el color del botón cuando se pasa el mouse */
+button:hover {
+    background-color: #4B0082; /* Color morado más oscuro */
+    color: #fff; /* Mantener el texto blanco */
+    border-color: #4B0082; /* Ajustar el borde al color del hover */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}

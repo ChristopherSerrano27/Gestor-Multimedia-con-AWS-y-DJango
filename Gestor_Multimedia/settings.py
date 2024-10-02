@@ -29,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['13.59.154.0', 'localhost']
 
 
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app_media",
-    "storages", #por si aca
+    "storages",  # Por si acaso
 ]
 
 MIDDLEWARE = [
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = "Gestor_Multimedia.urls"
@@ -109,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es"
 
 TIME_ZONE = "UTC"
 
@@ -121,15 +122,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "https://%s.s3.amazonaws.com/static/" % env('AWS_STORAGE_BUCKET_NAME')
+
+# Agrega esto si necesitas cargar archivos estáticos locales.
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-#config de S3 
-
+# Configuración de S3 
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
@@ -152,14 +157,15 @@ STORAGES = {
     },
 }
 
-#static
-STATIC_URL = "https://%s.s3.amazonaws.com/static/" % env('AWS_STORAGE_BUCKET_NAME')
-
-#media
+# Media files
 MEDIA_URL = "https://%s.s3.amazonaws.com/media/" % env('AWS_STORAGE_BUCKET_NAME')
 
-#default storage
+# Default storage
 DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
 
-#static file storage
+# Static file storage
 STATICFILES_STORAGE = "storages.backends.s3.S3Storage"
+
+LOGIN_URL = 'login'  
+LOGIN_REDIRECT_URL = 'listar_archivos' 
+LOGOUT_REDIRECT_URL = 'login'

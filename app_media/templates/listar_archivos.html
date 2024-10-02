@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Archivos</title>
+    <link rel="stylesheet" href="{% static 'css/lista.css' %}">
+</head>
+<body>
+    <h1>Gestor multimedia con AWS</h1> <!-- Título añadido -->
+    <h2>Bienvenido, {{ request.user.username }}!</h2> <!-- Mensaje de bienvenida -->
+
+    <!-- Navegación -->
+    <nav>
+        <form method="GET" action="{% url 'subir_archivo' %}" style="display: inline;">
+            <button type="submit" class="button">Subir Archivos</button>
+        </form>
+        <form method="GET" action="{% url 'compartir_archivo' %}" style="display: inline;">
+            <button type="submit" class="button">Compartir Archivos</button>
+        </form>
+        <form method="GET" action="{% url 'recibir_archivos' %}" style="display: inline;">
+            <button type="submit" class="button">Archivos Compartidos</button>
+        </form>
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="button">Cerrar sesión</button>
+        </form>
+    </nav>
+
+    <div class="container"> <!-- Contenedor central -->
+        <ul>
+            {% for archivo in archivos %}
+                <li>
+                    <!-- Miniaturas -->
+                    {% if archivo.es_imagen %}
+                        <img src="{{ archivo.url }}" alt="{{ archivo.nombre }}" class="thumbnail">
+                    {% elif archivo.es_pdf %}
+                        <img src="{% static 'imagenes/pdf_icon.png' %}" alt="PDF" class="thumbnail">
+                    {% elif archivo.es_video %}
+                        <img src="{% static 'imagenes/video_icon.png' %}" alt="Video" class="thumbnail">
+                    {% elif archivo.es_audio %}
+                        <img src="{% static 'imagenes/audio_icon.png' %}" alt="Audio" class="thumbnail">
+                    {% elif archivo.es_documento %}
+                        <img src="{% static 'imagenes/word_icon.png' %}" alt="Documento" class="thumbnail">
+                    {% elif archivo.es_excel %}
+                        <img src="{% static 'imagenes/excel_icon.png' %}" alt="Excel" class="thumbnail">
+                    {% elif archivo.es_ppt %}
+                        <img src="{% static 'imagenes/ppt_icon.png' %}" alt="PowerPoint" class="thumbnail">
+                    {% elif archivo.es_txt %}
+                        <img src="{% static 'imagenes/txt_icon.png' %}" alt="Texto" class="thumbnail">
+                    {% elif archivo.es_zip %}
+                        <img src="{% static 'imagenes/zip_icon.png' %}" alt="Archivo comprimido" class="thumbnail">
+                    {% else %}
+                        <span>No hay miniatura disponible</span>
+                    {% endif %}
+                    
+                    <!-- Mostrar nombre de archivo -->
+                    <span>{{ archivo.nombre }}</span>
+        
+                    <!-- Botón para descargar archivo -->
+                    <a href="{% url 'descargar_archivo' archivo.id %}" class="button">Descargar</a>
+        
+                    <!-- Formulario para eliminar archivo -->
+                    <form method="POST" style="display:inline;" action="{% url 'eliminar_archivo' archivo.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No hay archivos subidos aún.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+</body>
+</html>
