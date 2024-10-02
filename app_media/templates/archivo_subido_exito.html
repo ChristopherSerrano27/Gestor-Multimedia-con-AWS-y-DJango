@@ -1,13 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivo Subido con Éxito</title>
+    <link rel="stylesheet" href="{% static 'css/exito.css' %}">
 </head>
 <body>
-    <h2>Archivo Subido con Éxito</h2>
-    <a href="{% url 'subir_archivo' %}">Subir otro archivo</a><br>
-    <a href="{% url 'listar_archivos' %}">Ver lista de archivos</a>
+    <div class="success-container">
+        <h2>Archivo Subido con Éxito</h2>
+        <hr> <!-- Línea debajo del título -->
+        <div class="links">
+            <a href="{% url 'subir_archivo' %}" class="button">Subir otro archivo</a><br>
+            <a href="{% url 'listar_archivos' %}" class="button">Ver lista de archivos</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,62 @@
+body {
+    background: linear-gradient(135deg, #c394f0, #9497f0);
+    font-family: 'American Typewriter', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar contenido horizontalmente */
+    padding: 20px;
+}
+
+h1,h2 {
+    text-align: center; /* Centrar texto */
+    color: #0a070b; /* Color del texto */
+}
+
+.container {
+    width: 80%; /* Ancho del contenedor */
+    max-width: 1200px; /* Máximo ancho */
+    background-color: white; /* Fondo del contenedor */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    margin-bottom: 20px; /* Espacio debajo de la navegación */
+}
+
+.button {
+    background-color: #6A0DAD;/* Color del botón */
+    color: white; /* Color del texto */
+    padding: 5px 10px; /* Espaciado del botón */
+    text-align: center; /* Centrar texto */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Para mostrar en línea */
+    margin: 4px 2px; /* Margen del botón */
+    cursor: pointer; /* Cursor de puntero */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+ul {
+    list-style-type: none; /* Quitar puntos de la lista */
+    padding: 0; /* Sin padding */
+    display: flex;
+    flex-wrap: wrap; /* Permitir que se ajusten a varias líneas */
+    justify-content: space-between; /* Espacio entre elementos */
+}
+
+li {
+    width: calc(20% - 10px); /* Ancho de cada elemento, 5 columnas con un margen */
+    margin: 10px 0; /* Margen arriba y abajo */
+    text-align: center; /* Centrar contenido */
+    border: 1px solid #ccc; /* Borde alrededor del elemento */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+}
+
+.thumbnail {
+    width: 80px; /* Ancho de la miniatura */
+    height: 80px; /* Altura de la miniatura */
+    object-fit: cover; /* Ajustar la imagen */
+}

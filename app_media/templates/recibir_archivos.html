@@ -1,31 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivos Recibidos</title>
+    <link rel="stylesheet" href="{% static 'css/recibir.css' %}"> <!-- Asegúrate de tener este archivo CSS -->
 </head>
 <body>
-    <h2>Archivos Compartidos Contigo</h2>
-    <ul>
-        {% for compartido in archivos_recibidos %}
-            <li>
-                {{ compartido.remitente.username }} te envió: {{ compartido.archivo.nombre }}
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="archivo_id" value="{{ compartido.id }}">
-                    <button name="decision" value="aceptar" type="submit">Aceptar</button>
-                    <button name="decision" value="rechazar" type="submit">Rechazar</button>
-                </form>
-            </li>
-        {% empty %}
-            <li>No hay archivos pendientes de aceptación.</li>
-        {% endfor %}
-    </ul>
-
-    <!-- regresar -->
-    <form action="{% url 'listar_archivos' %}" method="get">
-        <button type="submit">Atrás</button>
-    </form>
+    <div class="received-container">
+        <h2>Archivos Compartidos Contigo</h2>
+        <hr> <!-- Línea debajo del título -->
+        <ul>
+            {% for compartido in archivos_recibidos %}
+                <li>
+                    <span class="file-info">{{ compartido.remitente.username }} te envió: {{ compartido.archivo.nombre }}</span>
+                    <form method="POST" class="decision-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="archivo_id" value="{{ compartido.id }}">
+                        <button name="decision" value="aceptar" type="submit" class="accept-button">Aceptar</button>
+                        <button name="decision" value="rechazar" type="submit" class="reject-button">Rechazar</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No hay archivos pendientes de aceptación.</li>
+            {% endfor %}
+        </ul>
+        <div class="button-container">
+            <!-- regresar -->
+            <form action="{% url 'listar_archivos' %}" method="get">
+                <button type="submit" class="back-button">Atrás</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
