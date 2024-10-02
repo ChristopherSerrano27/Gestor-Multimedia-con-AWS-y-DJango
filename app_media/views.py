@@ -113,7 +113,8 @@ def recibir_archivos(request):
             archivo_compartido.save()
 
             archivo_original = archivo_compartido.archivo
-            nuevo_nombre_archivo = f'archivos_usuarios/{request.user.username}/{archivo_original.archivo.name}'
+            nombre_archivo = archivo_original.archivo.name.split('/')[-1]
+            nuevo_nombre_archivo = f'archivos_usuarios/{request.user.username}/{nombre_archivo}'
 
             try:
                 s3_client = boto3.client('s3')
@@ -121,16 +122,14 @@ def recibir_archivos(request):
                     'Bucket': 'multimediabucket',
                     'Key': archivo_original.archivo.name
                 }
-                
+
                 s3_client.copy(copy_source, 'multimediabucket', nuevo_nombre_archivo)
 
                 nuevo_archivo = Archivo.objects.create(
                     nombre=archivo_original.nombre,
                     archivo=nuevo_nombre_archivo,
                     usuario=request.user
-                )
-
-                nuevo_archivo.archivo.name = nuevo_nombre_archivo
+                )                
                 nuevo_archivo.save()
 
             except Exception as e:
