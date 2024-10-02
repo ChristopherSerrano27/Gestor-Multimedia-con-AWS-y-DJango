@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.http import FileResponse, Http404
+from django.core.files import File
 
 @login_required
 def subir_archivo(request):
@@ -26,9 +27,9 @@ def subir_archivo(request):
 def archivo_subido_exito(request):
     return render(request, 'archivo_subido_exito.html')
 
-@login_required  
+@login_required
 def listar_archivos(request):
-    archivos = Archivo.objects.all() 
+    archivos = Archivo.objects.filter(usuario=request.user)
 
     for archivo in archivos:
         archivo.url = f'https://{archivo.archivo.storage.bucket_name}.s3.us-east-2.amazonaws.com/{archivo.archivo.name}'
@@ -63,7 +64,6 @@ def listar_archivos(request):
             archivo.es_zip = True
 
     return render(request, 'listar_archivos.html', {'archivos': archivos})
-
 
 class RegisterView(View):
     def get(self, request):
@@ -113,14 +113,13 @@ def recibir_archivos(request):
             archivo_compartido.save()
 
             archivo_original = archivo_compartido.archivo
-            
-            nuevo_nombre_archivo = f'archivos_usuarios/{request.user.username}/{archivo_original.nombre}'
+            nuevo_nombre_archivo = f'archivos_usuarios/{request.user.username}/{archivo_original.archivo.name}'
 
             try:
                 s3_client = boto3.client('s3')
                 copy_source = {
                     'Bucket': 'multimediabucket',
-                    'Key': archivo_original.archivo.name 
+                    'Key': archivo_original.archivo.name
                 }
                 
                 s3_client.copy(copy_source, 'multimediabucket', nuevo_nombre_archivo)
@@ -144,6 +143,7 @@ def recibir_archivos(request):
         return redirect('recibir_archivos')
 
     return render(request, 'recibir_archivos.html', {'archivos_recibidos': archivos_recibidos})
+
 
 @login_required
 def eliminar_archivo(request, archivo_id):
